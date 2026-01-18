@@ -13,6 +13,9 @@ const {
   deleteClass,
 } = require("../controller/fitness.controller");
 
+
+const { uploadToFirebase, upload } = require("../middleware/file.middleware");
+
 /**
  * @swagger
  * components:
@@ -207,7 +210,7 @@ const {
  *       403:
  *         description: Forbidden (Trainer or Admin only)
  */
-router.post("/", verifyToken, allowTrainerOrAdmin, createClass);
+router.post("/", verifyToken, allowTrainerOrAdmin, upload, uploadToFirebase, createClass);
 
 /**
  * @swagger
@@ -245,7 +248,7 @@ router.post("/", verifyToken, allowTrainerOrAdmin, createClass);
  *       404:
  *         description: Fitness class not found
  */
-router.patch("/:id", verifyToken, allowClassOwnerOrAdmin, updateClass);
+router.patch("/:id", verifyToken, allowClassOwnerOrAdmin, upload ,uploadToFirebase, updateClass);
 
 /**
  * @swagger
