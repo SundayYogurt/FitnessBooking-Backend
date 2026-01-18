@@ -9,7 +9,7 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "https://fitnessbooking-backend.onrender.com",
       },
     ],
     tags: [
