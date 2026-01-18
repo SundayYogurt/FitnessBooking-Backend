@@ -1,0 +1,19 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: fitness-mongodb
+    restart: unless-stopped #ถ้า container พัง / server reboot → Docker จะรันใหม่ให้
+    environment:
+      MONGO_INITDB_DATABASE: fitness_booking #สร้าง database ชื่อ fitness_booking อัตโนมัติ
+    ports:
+      - "27017:27017" #เครื่องเรา : container
+    volumes:
+      - mongo_data:/data/db #ผูก volume เก็บข้อมูลถาวร
+    healthcheck: # ตรวจสอบว่า MongoDB พร้อมใช้งานหรือยัง
+      test: ["CMD", "mongosh", "--quiet", "mongodb://localhost:27017/fitness_booking", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:
