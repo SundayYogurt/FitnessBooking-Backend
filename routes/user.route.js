@@ -199,7 +199,31 @@ router.post("/become-trainer", verifyToken, becomeToTrainer);
  *         description: User not found
  */
 router.patch("/admin/approve-trainer/:id",verifyToken,allowAdmin,approveTrainer,);
-
-router.get("/request",verifyToken,allowAdmin,getRequestFromUser)
+/**
+ * @swagger
+ * /api/v1/user/request:
+ *   get:
+ *     summary: Get all pending trainer request users
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of users with pending trainer requests
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin access required
+ */
+router.get("/request", verifyToken, allowAdmin, getRequestFromUser);
 
 module.exports = router;
