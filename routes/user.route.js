@@ -7,6 +7,7 @@ const {
   updateProfile,
   becomeToTrainer,
   approveTrainer,
+  getRequestFromUser,
 } = require("../controller/user.controller");
 const {
   allowOwnerOrAdmin,
@@ -199,5 +200,6 @@ router.post("/become-trainer", verifyToken, becomeToTrainer);
  */
 router.patch("/admin/approve-trainer/:id",verifyToken,allowAdmin,approveTrainer,);
 
+router.get("/request",verifyToken,allowAdmin,getRequestFromUser)
 
 module.exports = router;

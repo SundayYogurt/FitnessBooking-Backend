@@ -5,7 +5,7 @@ const {
   createBooking,
   getBookingsByUser,
   cancelBooking,
-} = require("../controller/ฺbooking.controller");
+} = require("../controller/booking.controller")
 const {
   allowOwnerOrAdmin,
   allowUserOrAdmin,

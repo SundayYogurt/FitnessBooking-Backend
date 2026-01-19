@@ -221,6 +221,25 @@ const becomeToTrainer = async (req, res) => {
   }
 };
 
+
+const getRequestFromUser = async (req, res) => {
+  try {
+    const user = await UserModel.find({ trainerRequest: "pending" }).select("username trainerRequest");
+
+    if (user.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({
+      message: "Get all user pending request successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("get all user peding request error:", error);
+    return res.status(500).json({
+      message: "Failed to get all user request",error: error.message,
+    });
+  }
+};
 const approveTrainer = async (req, res) => {
   try {
     const { id } = req.params;
@@ -262,4 +281,5 @@ module.exports = {
   updateProfile,
   becomeToTrainer,
   approveTrainer,
+  getRequestFromUser,
 };

@@ -23,7 +23,7 @@ const swaggerSpec = require("./swagger");
 
 //default route
 app.get('/', (req, res) => {
-  res.send('Welcome to SE NPRU BLog RestFul API!');
+  res.send('Welcome to Fitness booking RestFul API!');
 });
 
 //cors
