@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.use(cors({
   origin:["http://localhost:5173","127.0.0.1:5173", BASE_URL],
   methods:["GET","POST","PUT","DELETE"],
-  allowedHeaders:["Content-Type","Authorization","x-access-token"]
+  allowedHeaders:["Content-Type","Authorization","access-token"]
 }))
 
 app.use(express.static("public"));

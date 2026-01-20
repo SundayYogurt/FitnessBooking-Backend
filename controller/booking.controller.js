@@ -34,7 +34,7 @@ const createBooking = async (req, res) => {
     if (!classExists) {
       return res.status(404).json({ message: "Class not found" });
     }
-
+// สร้าง การ booking
     const bookingDoc = await BookingModel.create({
       userId,
       classId,
@@ -42,6 +42,7 @@ const createBooking = async (req, res) => {
       bookingTime,
     });
 
+    // ตอบกลับ  status 201  กับ bookigDoc
     return res.status(201).json({
       message: "Booking created successfully",
       booking: bookingDoc,
@@ -51,6 +52,7 @@ const createBooking = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({
         message: "You already booked this class",
+        error: error.message,
       });
     }
 
@@ -61,16 +63,19 @@ const createBooking = async (req, res) => {
 
 const getBookingsByUser = async (req, res) => {
   try {
+    // ดึง id ผ่าน req.user
     const userId = req.user?.id;
 
+    // auth validate
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
+    // check userId จาก db
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({ message: "Invalid userId" });
     }
 
+    //query booking
     const bookings = await BookingModel.find({ userId })
       .populate("userId", "username")
       .populate("classId", "className classDate");
