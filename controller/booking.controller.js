@@ -5,7 +5,7 @@ const UserModel = require("../models/user.model");
 
 const createBooking = async (req, res) => {
   try {
-    const {classId} = req.params;
+    const { classId } = req.params;
     const { bookingDate, bookingTime } = req.body;
     const userId = req.user?.id;
 
@@ -14,8 +14,11 @@ const createBooking = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
+    if (!classId) {
+      return res.status(400).json({ message: "Class not found"})
+    }
     // validate body
-    if (!classId || !bookingDate || !bookingTime) {
+    if (!bookingDate || !bookingTime) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
