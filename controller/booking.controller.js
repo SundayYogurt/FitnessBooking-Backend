@@ -5,7 +5,8 @@ const UserModel = require("../models/user.model");
 
 const createBooking = async (req, res) => {
   try {
-    const { classId, bookingDate, bookingTime } = req.body;
+    const {classId} = req.params;
+    const { bookingDate, bookingTime } = req.body;
     const userId = req.user?.id;
 
     // auth
@@ -34,7 +35,7 @@ const createBooking = async (req, res) => {
     if (!classExists) {
       return res.status(404).json({ message: "Class not found" });
     }
-// สร้าง การ booking
+    // สร้าง การ booking
     const bookingDoc = await BookingModel.create({
       userId,
       classId,

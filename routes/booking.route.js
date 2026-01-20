@@ -56,14 +56,9 @@ const {
  *     BookingCreate:
  *       type: object
  *       required:
- *         - classId
  *         - bookingDate
  *         - bookingTime
  *       properties:
- *         classId:
- *           type: string
- *           description: The ID of the fitness class to book.
- *           example: 60d21b4667d0d8992e610c86
  *         bookingDate:
  *           type: string
  *           format: date
@@ -77,12 +72,20 @@ const {
 
 /**
  * @swagger
- * /api/v1/booking:
+ * /api/v1/booking/{classId}:
  *   post:
  *     summary: Create a new booking
  *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: classId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the fitness class to book.
+ *         example: 60d21b4667d0d8992e610c86
  *     requestBody:
  *       required: true
  *       content:
@@ -107,7 +110,10 @@ const {
  *       401:
  *         description: Unauthorized
  */
-router.post("/", verifyToken, allowUserOrAdmin, createBooking);
+router.post("/:id", verifyToken, allowUserOrAdmin, createBooking);
+
+
+
 
 /**
  * @swagger
