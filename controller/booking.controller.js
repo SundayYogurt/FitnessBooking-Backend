@@ -3,67 +3,67 @@ const BookingModel = require("../models/booking.model");
 const FitnessClassModel = require("../models/fitnessClass.model");
 const UserModel = require("../models/user.model");
 
-const createBooking = async (req, res) => {
-  try {
-    const { classId } = req.params;
-    const { bookingDate, bookingTime } = req.body;
-    const userId = req.user?.id;
+  const createBooking = async (req, res) => {
+    try {
+      const { classId } = req.params.id;
+      const { bookingDate, bookingTime } = req.body;
+      const userId = req.user?.id;
 
-    // auth
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+      // auth
+      if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
 
-    if (!classId) {
-      return res.status(400).json({ message: "Class not found"})
-    }
-    // validate body
-    if (!bookingDate || !bookingTime) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+      if (!classId) {
+        return res.status(400).json({ message: "Class not found"})
+      }
+      // validate body
+      if (!bookingDate || !bookingTime) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
 
-    // validate ObjectId
-    if (!mongoose.Types.ObjectId.isValid(classId)) {
-      return res.status(400).json({ message: "Invalid classId" });
-    }
+      // validate ObjectId
+      if (!mongoose.Types.ObjectId.isValid(classId)) {
+        return res.status(400).json({ message: "Invalid classId" });
+      }
 
-    // check user
-    const userExists = await UserModel.exists({ _id: userId });
-    if (!userExists) {
-      return res.status(404).json({ message: "User not found" });
-    }
+      // check user
+      const userExists = await UserModel.exists({ _id: userId });
+      if (!userExists) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
-    // check class
-    const classExists = await FitnessClassModel.exists({ _id: classId });
-    if (!classExists) {
-      return res.status(404).json({ message: "Class not found" });
-    }
-    // สร้าง การ booking
-    const bookingDoc = await BookingModel.create({
-      userId,
-      classId,
-      bookingDate,
-      bookingTime,
-    });
-
-    // ตอบกลับ  status 201  กับ bookigDoc
-    return res.status(201).json({
-      message: "Booking created successfully",
-      booking: bookingDoc,
-    });
-  } catch (error) {
-    // booking ซ้ำ
-    if (error.code === 11000) {
-      return res.status(400).json({
-        message: "You already booked this class",
-        error: error.message,
+      // check class
+      const classExists = await FitnessClassModel.exists({ _id: classId });
+      if (!classExists) {
+        return res.status(404).json({ message: "Class not found" });
+      }
+      // สร้าง การ booking
+      const bookingDoc = await BookingModel.create({
+        userId,
+        classId,
+        bookingDate,
+        bookingTime,
       });
-    }
 
-    console.error(error);
-    return res.status(500).json({ message: "Error createing booking", error: error.message  });
-  }
-};
+      // ตอบกลับ  status 201  กับ bookigDoc
+      return res.status(201).json({
+        message: "Booking created successfully",
+        booking: bookingDoc,
+      });
+    } catch (error) {
+      // booking ซ้ำ
+      if (error.code === 11000) {
+        return res.status(400).json({
+          message: "You already booked this class",
+          error: error.message,
+        });
+      }
+
+      console.error(error);
+      return res.status(500).json({ message: "Error createing booking", error: error.message  });
+    }
+  };
 
 const getBookingsByUser = async (req, res) => {
   try {
