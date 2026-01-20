@@ -5,7 +5,7 @@ const UserModel = require("../models/user.model");
 
   const createBooking = async (req, res) => {
     try {
-      const { classId } = req.params.id;
+      const { classId } = req.params;
       const { bookingDate, bookingTime } = req.body;
       const userId = req.user?.id;
 

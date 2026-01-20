@@ -110,7 +110,7 @@ const {
  *       401:
  *         description: Unauthorized
  */
-router.post("/:id", verifyToken, allowUserOrAdmin, createBooking);
+router.post("/:classId", verifyToken, allowUserOrAdmin, createBooking);
 
 
 
