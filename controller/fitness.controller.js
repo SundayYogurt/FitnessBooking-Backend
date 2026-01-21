@@ -190,4 +190,42 @@ const deleteClass = async (req, res) => {
   }
 };
 
-module.exports = { createClass, updateClass, getAllClasses, deleteClass };
+const getMyClasses = async (req, res) => {
+  try {
+    const userId = req.user.id; // มาจาก verifyToken
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // เช็ค role
+    if (user.role !== "trainer") {
+      return res.status(403).json({ message: "Access forbidden: trainer only." });
+    }
+
+    // ดึง class ที่ trainer คนนี้สร้าง
+    const classes = await FitnessClassModel.find({
+      createdBy: userId,
+    }).sort({ createdAt: -1 }); // เรียงล่าสุดก่อน
+
+    return res.status(200).json({
+      message: "Get my classes successfully",
+      classes,
+    });
+  } catch (error) {
+    console.error("Get my classes error:", error);
+    return res.status(500).json({
+      message: "Error to get my classes",
+      error: error.message,
+    });
+  }
+};
+
+
+
+module.exports = { createClass, updateClass, getAllClasses, deleteClass, getMyClasses };

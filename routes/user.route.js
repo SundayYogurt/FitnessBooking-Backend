@@ -150,7 +150,7 @@ router.post("/login", login);
  *       403:
  *         description: Forbidden
  */
-router.patch("/profile/:id", verifyToken, allowOwnerOrAdmin, updateProfile);
+router.patch("/profile/:id", verifyToken, allowAdmin, updateProfile);
 
 
 /**

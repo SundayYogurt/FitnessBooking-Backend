@@ -11,6 +11,7 @@ const {
   updateClass,
   getAllClasses,
   deleteClass,
+  getMyClasses,
 } = require("../controller/fitness.controller");
 
 
@@ -46,7 +47,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *         duration:
  *           type: number
  *           description: "The duration of the class."
- *           example: 60 
+ *           example: 60
  *         classType:
  *           type: string
  *           description: "The type of the class."
@@ -138,7 +139,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *           example: "available"
  *         image:
  *           type: string
- *           example: "https://example.com/image.jpg"
+ *           format: binary
  *         location:
  *           type: string
  *           example: "Bangkok"
@@ -193,7 +194,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: '#/components/schemas/FitnessClassCreate'
  *     responses:
@@ -267,6 +268,30 @@ router.patch("/:id", verifyToken, allowClassOwnerOrAdmin, upload ,uploadToFireba
  *                 $ref: '#/components/schemas/FitnessClass'
  */
 router.get("/", getAllClasses);
+
+/**
+ * @swagger
+ * /api/v1/fitness_class/my-classes:
+ *   get:
+ *     summary: Get my fitness classes
+ *     tags: [Fitness Classes]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of my fitness classes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/FitnessClass'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ */
+router.get("/my-classes", verifyToken, allowTrainerOrAdmin, getMyClasses);
 
 /**
  * @swagger
