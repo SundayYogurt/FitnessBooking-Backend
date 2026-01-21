@@ -13,7 +13,7 @@ const FitnessClassSchema = new Schema(
     description: { type: String, required: true },
     classDate: { type: Date, required: true },
     status: { type: String, enum: ["active", "inactive"], default: "active" },
-    image: { type: String, required: true },
+    cover: { type: String, required: true },
     location: { type: String, required: true },
     createdBy: {
     type: Schema.Types.ObjectId,

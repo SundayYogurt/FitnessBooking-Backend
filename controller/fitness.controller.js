@@ -19,7 +19,7 @@ const createClass = async (req, res) => {
     } = req.body;
 
     const userId = req.user?.id;
-    const image = req.coverUrl; 
+    const cover = req.coverUrl; 
 
     // validate body
     if (
@@ -39,8 +39,8 @@ const createClass = async (req, res) => {
     }
 
     // validate image
-    if (!image) {
-      return res.status(400).json({ message: "Image is required" });
+    if (!cover) {
+      return res.status(400).json({ message: "Cover is required" });
     }
 
     // auth
@@ -69,7 +69,7 @@ const createClass = async (req, res) => {
       classDate,
       status,
       location,
-      image,
+      cover,
       createdBy: userId,
     });
 
@@ -98,7 +98,7 @@ const updateClass = async (req, res) => {
 
     // ถ้ามีอัปโหลดรูปใหม่จาก Firebase
     if (req.coverUrl) {
-      updateData.image = req.coverUrl;
+      updateData.cover = req.coverUrl;
     }
 
     // ดักไม่ส่งอะไรมาเลย

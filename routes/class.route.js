@@ -69,9 +69,9 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *           type: string
  *           description: "The status of the class."
  *           example: "available"
- *         image:
+ *         cover:
  *           type: string
- *           description: "The image of the class."
+ *           description: "The cover of the class."
  *           example: "https://example.com/image.jpg"
  *         location:
  *           type: string
@@ -103,7 +103,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *         - description
  *         - classDate
  *         - status
- *         - image
+ *         - cover
  *         - location
  *       properties:
  *         className:
@@ -137,7 +137,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *         status:
  *           type: string
  *           example: "available"
- *         image:
+ *         cover:
  *           type: string
  *           format: binary
  *         location:
@@ -175,7 +175,7 @@ const { uploadToFirebase, upload } = require("../middleware/file.middleware");
  *           type: string
  *           format: date-time
  *           example: 2024-02-01T09:00:00Z
- *         image:
+ *         cover:
  *           type: string
  *           example: https://example.com/new-image.jpg
  *         location:
