@@ -154,7 +154,6 @@ const deleteClass = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    const isAdmin = req.user.role === "admin";
 
     if (!id) {
       return res.status(400).json({ message: "class id is required" });
@@ -169,7 +168,7 @@ const deleteClass = async (req, res) => {
     }
 
     const deletedClass = await FitnessClassModel.findOneAndDelete(
-      isAdmin ? { _id: id } : { _id: id, createdBy: userId },
+      { _id: id, createdBy: userId },
     );
 
     if (!deletedClass) {
