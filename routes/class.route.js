@@ -5,6 +5,7 @@ const {
   allowClassOwnerOrAdmin,
   allowAdmin,
   allowTrainerOrAdmin,
+  allowOwnerOrAdmin,
 } = require("../middleware/permission.middleware");
 const {
   createClass,
@@ -325,6 +326,6 @@ router.get("/my-classes", verifyToken, allowTrainerOrAdmin, getMyClasses);
  *       404:
  *         description: Fitness class not found
  */
-router.delete("/:id", verifyToken, allowAdmin, deleteClass);
+router.delete("/:id", verifyToken, allowOwnerOrAdmin, deleteClass);
 
 module.exports = router;
