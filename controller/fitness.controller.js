@@ -204,8 +204,8 @@ const getMyClasses = async (req, res) => {
     }
 
     // เช็ค role
-    if (user.role !== "trainer") {
-      return res.status(403).json({ message: "Access forbidden: trainer only." });
+    if (user.role !== "trainer" && user.role !== "admin") {
+      return res.status(403).json({ message: "Access forbidden: trainer or admin only." });
     }
 
     // ดึง class ที่ trainer คนนี้สร้าง
