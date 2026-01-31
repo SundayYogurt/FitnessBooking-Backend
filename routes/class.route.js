@@ -326,6 +326,6 @@ router.get("/my-classes", verifyToken, allowTrainerOrAdmin, getMyClasses);
  *       404:
  *         description: Fitness class not found
  */
-router.delete("/:id", verifyToken, allowOwnerOrAdmin, deleteClass);
+router.delete("/:id", verifyToken, allowClassOwnerOrAdmin, deleteClass);
 
 module.exports = router;

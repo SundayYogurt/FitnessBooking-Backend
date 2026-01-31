@@ -152,28 +152,17 @@ const getAllClasses = async (req, res) => {
 const deleteClass = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user.id;
-
-
-    if (!id) {
-      return res.status(400).json({ message: "class id is required" });
-    }
-
-    if (!userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid post id" });
+      return res.status(400).json({ message: "Invalid class id" });
     }
 
-    const deletedClass = await FitnessClassModel.findOneAndDelete(
-      { _id: id, createdBy: userId },
-    );
+    const deletedClass = await FitnessClassModel.findByIdAndDelete(id);
 
     if (!deletedClass) {
+      // This case should ideally not be hit if the middleware and ID are correct
       return res.status(404).json({
-        message: "Class not found or not owned by this user",
+        message: "Class not found",
       });
     }
 
@@ -185,6 +174,7 @@ const deleteClass = async (req, res) => {
     console.error("Delete class error:", error);
     return res.status(500).json({
       message: "Failed to delete this class",
+      error: error.message,
     });
   }
 };
